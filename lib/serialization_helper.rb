@@ -80,11 +80,13 @@ module SerializationHelper
         return
       end
       columns = column_names.map{|cn| ActiveRecord::Base.connection.columns(table).detect{|c| c.name == cn}}
-      quoted_column_names = column_names.map { |column| ActiveRecord::Base.connection.quote_column_name(column) }.join(',')
-      quoted_table_name = SerializationHelper::Utils.quote_table(table)
+      arel_table = Arel::Table.new table
       records.each do |record|
-        quoted_values = record.zip(columns).map{|c| ActiveRecord::Base.connection.quote(c.first, c.last)}.join(',')
-        ActiveRecord::Base.connection.execute("INSERT INTO #{quoted_table_name} (#{quoted_column_names}) VALUES (#{quoted_values})")
+        manager = Arel::InsertManager.new Arel::Table.engine
+        manager.into arel_table
+        manager.values = Arel::Nodes::Values.new record
+        column_names.each { |c| manager.columns << arel_table[c.to_sym] }
+        ActiveRecord::Base.connection.execute manager.to_sql
       end
     end
 
