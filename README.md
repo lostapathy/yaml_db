@@ -1,10 +1,14 @@
 # YamlDb
 
-YamlDb is a database-independent format for dumping and restoring data.  It complements the the database-independent schema format found in db/schema.rb.  The data is saved into db/data.yml.
+YamlDb is a database-independent format for dumping and restoring data.  It complements the database-independent schema format found in db/schema.rb.  The data is saved into db/data.yml.
 
 This can be used as a replacement for mysqldump or pg_dump, but only for the databases typically used by Rails apps.  Users, permissions, schemas, triggers, and other advanced database features are not supported - by design.
 
-Any database that has an ActiveRecord adapter should work.  This gem is now Rails 3 only.  For Rails 2, clone and checkout the Rails2 branch.
+Any database that has an ActiveRecord adapter should work.
+
+This gem supports Rails 3.x and 4.x.
+
+[![Build Status](https://travis-ci.org/yamldb/yaml_db.svg?branch=master)](https://travis-ci.org/yamldb/yaml_db)
 
 ## Installation
 
@@ -40,9 +44,4 @@ One common use would be to switch your data from one database backend to another
 
 ## Credits
 
-Created by Orion Henry and Adam Wiggins.  Major updates by Ricardo Chimal, Jr.
-
-Patches contributed by Michael Irwin, Tom Locke, and Tim Galeckas.
-
-Send questions, feedback, or patches to the Heroku mailing list: http://groups.google.com/group/heroku
-
+Created by Orion Henry and Adam Wiggins. Major updates by Ricardo Chimal Jr. and Nate Kidwell.

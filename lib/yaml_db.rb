@@ -1,18 +1,20 @@
 require 'rubygems'
 require 'yaml'
 require 'active_record'
-require 'serialization_helper'
 require 'active_support/core_ext/kernel/reporting'
 require 'rails/railtie'
+require 'yaml_db/rake_tasks'
+require 'yaml_db/version'
+require 'yaml_db/serialization_helper'
 
 module YamlDb
   module Helper
     def self.loader
-      YamlDb::Load
+      Load
     end
 
     def self.dumper
-      YamlDb::Dump
+      Dump
     end
 
     def self.extension
@@ -44,8 +46,8 @@ module YamlDb
       column_names = table_column_names(table)
 
       each_table_page(table) do |records|
-        rows = SerializationHelper::Utils.unhash_records(records, column_names)
-        io.write(YamlDb::Utils.chunk_records(records))
+        rows = SerializationHelper::Utils.unhash_records(records.to_a, column_names)
+        io.write(Utils.chunk_records(rows))
       end
     end
 
